@@ -57,11 +57,12 @@ def permission_required(perm, login_url=None, raise_exception=False):
     If the raise_exception parameter is given the PermissionDenied exception
     is raised.
     """
+    if isinstance(perm, str):
+        perms = (perm,)
+    else:
+        perms = perm
+        
     def check_perms(user):
-        if isinstance(perm, str):
-            perms = (perm,)
-        else:
-            perms = perm
         # First check if the user has the permission (even anon users)
         if user.has_perms(perms):
             return True
